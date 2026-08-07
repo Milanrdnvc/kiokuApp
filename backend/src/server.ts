@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.routes";
 import deckRouter from "./routes/deck.routes";
+import cardRouter from "./routes/card.routes";
 
 const app = express();
 app.use(cors());
@@ -17,6 +18,7 @@ connection.once("open", () => {
 const router = Router();
 router.use("/user", userRouter);
 router.use("/deck", deckRouter);
+router.use("/card", cardRouter);
 app.use("/", router);
 
 app.listen(4000, () => console.log("Express running on port 4000!"));

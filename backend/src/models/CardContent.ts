@@ -15,6 +15,9 @@ const CardContent = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
 });
 
 export default mongoose.model("CardContent", CardContent, "cardContent");
