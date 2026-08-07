@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const generateToken = (userId: Types.ObjectId | string): string => {
   return jwt.sign(
     { id: userId.toString() },
-    process.env.JWT_SECRET || "tajni_kljuc_za_dev",
+    process.env.JWT_SECRET || "secret_key_dev",
     { expiresIn: "7d" },
   );
 };
@@ -67,7 +67,7 @@ export class UserController {
       const token = generateToken(user._id);
 
       res.status(200).json({
-        message: "Uspešna prijava.",
+        message: "Login successful.",
         token,
         user: {
           id: user._id,
