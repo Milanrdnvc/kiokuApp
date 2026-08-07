@@ -28,7 +28,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   try {
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET || "tajni_kljuc_za_dev",
+      process.env.JWT_SECRET || "secret_key_dev",
     ) as JwtPayload;
 
     req.userId = decoded.id as string;
