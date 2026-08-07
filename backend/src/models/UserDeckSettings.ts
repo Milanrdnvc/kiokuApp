@@ -9,6 +9,7 @@ const UserDeckSettings = new Schema({
   },
   deckId: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: "Deck",
     required: true,
   },
   algorithm: {
