@@ -1,8 +1,27 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
+import bcrypt from "bcrypt";
 
 const Schema = mongoose.Schema;
 
-const User = new Schema({
+export interface IUser {
+  username: string;
+  email: string;
+  password: string;
+  streakBeginning?: Date | null;
+  streakLength?: number | null;
+}
+
+export interface IUserMethods {
+  comparePassword(enteredPassword: string): Promise<boolean>;
+}
+
+export type UserDocument = IUser & IUserMethods & Document<Types.ObjectId>;
+
+const User = new Schema<
+  IUser,
+  mongoose.Model<IUser, {}, IUserMethods>,
+  IUserMethods
+>({
   username: {
     type: String,
     required: true,
@@ -26,4 +45,21 @@ const User = new Schema({
   },
 });
 
-export default mongoose.model("User", User, "users");
+User.pre("save", async function (next) {
+  if (!this.isModified("password")) return;
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+User.methods.comparePassword = async function (
+  enteredPassword: string,
+): Promise<boolean> {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+export default mongoose.model<IUser, mongoose.Model<IUser, {}, IUserMethods>>(
+  "User",
+  User,
+  "users",
+);
