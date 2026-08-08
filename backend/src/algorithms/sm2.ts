@@ -2,16 +2,22 @@ export type SM2Grade = 0 | 1 | 2 | 3 | 4 | 5;
 
 export interface SM2State {
   repetitions: number;
-  interval: number;
   easeFactor: number;
+
+  reps: number;
+  lapses: number;
+
+  interval: number;
 }
 
 export interface SM2Result extends SM2State {
   nextReviewDate: Date;
 }
 
-export const INITIAL_SM2_STATE: SM2State = {
+const INITIAL_SM2_STATE: SM2State = {
   repetitions: 0,
+  reps: 0,
+  lapses: 0,
   interval: 0,
   easeFactor: 2.5,
 };
@@ -25,7 +31,7 @@ export function calculateSM2(
     throw new Error("Grade must be between 0 and 5.");
   }
 
-  const { repetitions, interval, easeFactor } = currentState;
+  const { repetitions, reps, lapses, interval, easeFactor } = currentState;
 
   const q = grade;
   let newEaseFactor = Math.max(
@@ -35,11 +41,12 @@ export function calculateSM2(
 
   let newRepetitions: number;
   let newInterval: number;
+  let newLapses = lapses;
 
   if (grade >= 3) {
-    if (repetitions == 0) {
+    if (repetitions === 0) {
       newInterval = 1;
-    } else if (repetitions == 1) {
+    } else if (repetitions === 1) {
       newInterval = 6;
     } else {
       newInterval = Math.round(interval * newEaseFactor);
@@ -48,15 +55,20 @@ export function calculateSM2(
   } else {
     newRepetitions = 0;
     newInterval = 1;
+    newLapses += 1;
   }
 
   const nextReviewDate = new Date(now);
   nextReviewDate.setDate(nextReviewDate.getDate() + newInterval);
 
   return {
-    repetitions: newRepetitions,
     interval: newInterval,
-    easeFactor: Math.round(newEaseFactor * 100) / 100,
     nextReviewDate,
+
+    repetitions: newRepetitions,
+    easeFactor: Math.round(newEaseFactor * 100) / 100,
+
+    reps: reps + 1,
+    lapses: newLapses,
   };
 }
