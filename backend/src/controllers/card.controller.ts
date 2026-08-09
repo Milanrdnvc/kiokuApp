@@ -6,6 +6,7 @@ import UserDeckSettings from "../models/UserDeckSettings";
 import { reviewCard, UnifiedReviewInput } from "../algorithms/main";
 import { FSRSState } from "../algorithms/fsrs";
 import { SM2State } from "../algorithms/sm2";
+import ReviewLog from "../models/ReviewLog";
 
 const processCardReview = async (
   userId: string,
@@ -70,6 +71,16 @@ const processCardReview = async (
     currentState: currentState,
     elapsedDays,
   } as UnifiedReviewInput);
+
+  await ReviewLog.create({
+    userId,
+    cardId,
+    grade,
+    algorithm,
+    elapsedDays,
+    scheduledDays: reviewResult.interval,
+    reviewTime: new Date(),
+  });
 
   Object.assign(cardUserData, reviewResult.newState, {
     nextReview: reviewResult.nextReviewDate,

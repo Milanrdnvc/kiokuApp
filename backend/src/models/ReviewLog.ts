@@ -11,7 +11,7 @@ const ReviewLog = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  rating: {
+  grade: {
     type: Number,
     required: true,
   },
