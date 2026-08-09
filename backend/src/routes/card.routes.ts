@@ -22,4 +22,8 @@ cardRouter
   .route("/delete")
   .post((req, res) => new CardController().delete(req, res));
 
+cardRouter
+  .route("/review")
+  .post((req, res) => new CardController().review(req, res));
+
 export default cardRouter;

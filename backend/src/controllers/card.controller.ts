@@ -2,6 +2,87 @@ import * as express from "express";
 import Deck from "../models/Deck";
 import CardContent from "../models/CardContent";
 import CardUserData from "../models/CardUserData";
+import UserDeckSettings from "../models/UserDeckSettings";
+import { reviewCard, UnifiedReviewInput } from "../algorithms/main";
+import { FSRSState } from "../algorithms/fsrs";
+import { SM2State } from "../algorithms/sm2";
+
+const processCardReview = async (
+  userId: string,
+  cardId: string,
+  grade: number,
+) => {
+  let cardUserData = await CardUserData.findOne({ userId, cardId });
+  if (!cardUserData) {
+    cardUserData = new CardUserData({ userId, cardId });
+  }
+
+  const cardContent = await CardContent.findById(cardId);
+  if (!cardContent) {
+    return {
+      success: false,
+      message: "Error! Card not found.",
+    };
+  }
+
+  const userDeckSettings = await UserDeckSettings.findOne({
+    userId,
+    deckId: cardContent.deckId,
+  });
+
+  const algorithm = userDeckSettings?.algorithm ?? "SM2";
+
+  let elapsedDays = 0;
+  if (cardUserData.lastReview) {
+    const diffMs = Date.now() - cardUserData.lastReview.getTime();
+    elapsedDays = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+  }
+
+  let currentState: SM2State | FSRSState | undefined = undefined;
+
+  if (cardUserData.lastReview) {
+    if (algorithm == "SM2") {
+      currentState = {
+        easeFactor: cardUserData.easeFactor,
+        repetitions: cardUserData.repetitions,
+
+        reps: cardUserData.reps,
+        lapses: cardUserData.lapses,
+
+        interval: cardUserData.interval,
+      } as SM2State;
+    } else if (algorithm == "FSRS") {
+      currentState = {
+        stability: cardUserData.stability,
+        difficulty: cardUserData.difficulty,
+
+        reps: cardUserData.reps,
+        lapses: cardUserData.lapses,
+
+        interval: cardUserData.interval,
+      } as FSRSState;
+    }
+  }
+
+  const reviewResult = reviewCard({
+    algorithm,
+    grade,
+    currentState: currentState,
+    elapsedDays,
+  } as UnifiedReviewInput);
+
+  Object.assign(cardUserData, reviewResult.newState, {
+    nextReview: reviewResult.nextReviewDate,
+    lastReview: new Date(),
+  });
+
+  await cardUserData.save();
+
+  return {
+    success: true,
+    message: "Card reviewed successfully.",
+  };
+};
 
 export class CardController {
   create = async (req: express.Request, res: express.Response) => {
@@ -114,6 +195,36 @@ export class CardController {
       return res.status(200).json({
         message: "Card deleted successfully",
       });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error! Internal server error.",
+      });
+    }
+  };
+
+  review = async (req: express.Request, res: express.Response) => {
+    try {
+      const { cardId, grade } = req.body;
+      const userId = req.userId;
+
+      if (
+        !cardId ||
+        grade === undefined ||
+        grade === null ||
+        typeof grade !== "number"
+      ) {
+        return res
+          .status(400)
+          .json({ message: "Error! cardId and grade are required." });
+      }
+
+      const status = await processCardReview(userId || "", cardId, grade);
+
+      if (status.success) {
+        return res.json({ message: status.message });
+      } else {
+        return res.status(404).json({ message: status.message });
+      }
     } catch (error) {
       res.status(500).json({
         message: "Error! Internal server error.",
