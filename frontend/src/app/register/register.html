@@ -1,16 +1,16 @@
 <h2>Register</h2>
-<form>
+<form (ngSubmit)="register()">
   <div>
     <label>Username:</label>
-    <input type="text" name="email" />
+    <input type="text" name="username" [(ngModel)]="newUser.username" />
   </div>
   <div>
     <label>Email:</label>
-    <input type="email" name="email" />
+    <input type="email" name="email" [(ngModel)]="newUser.email" />
   </div>
   <div>
     <label>Password:</label>
-    <input type="password" name="password" />
+    <input type="password" name="password" [(ngModel)]="newUser.password" />
   </div>
   <button type="submit">Create Account</button>
 </form>
