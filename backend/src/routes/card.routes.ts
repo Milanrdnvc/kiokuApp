@@ -26,4 +26,12 @@ cardRouter
   .route("/review")
   .post((req, res) => new CardController().review(req, res));
 
+cardRouter
+  .route("/getDueCards")
+  .post((req, res) => new CardController().getDueCards(req, res));
+
+cardRouter
+  .route("/getNewCards")
+  .post((req, res) => new CardController().getNewCards(req, res));
+
 export default cardRouter;

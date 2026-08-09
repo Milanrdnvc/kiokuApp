@@ -10,6 +10,7 @@ const CardUserData = new Schema(
     },
     cardId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "CardContent",
       required: true,
     },
 

@@ -231,4 +231,57 @@ export class CardController {
       });
     }
   };
+
+  getDueCards = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = req.userId;
+      const { deckId } = req.body;
+
+      const filter: any = {
+        userId,
+        nextReview: { $lte: new Date() },
+      };
+
+      if (deckId) {
+        const deckCards = await CardContent.find({ deckId }).select("_id");
+        const deckCardIds = deckCards.map((card) => card._id);
+        filter.cardId = { $in: deckCardIds };
+      }
+
+      const dueCards = await CardUserData.find(filter)
+        .sort({ nextReview: 1 })
+        .populate("cardId");
+
+      return res.status(200).json({ dueCards });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error! Internal server error.",
+      });
+    }
+  };
+
+  getNewCards = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = req.userId;
+      const { deckId, limit } = req.body;
+
+      const reviewedCardIds = await CardUserData.distinct("cardId", { userId });
+
+      const filter: any = {
+        _id: { $nin: reviewedCardIds },
+      };
+
+      deckId && (filter.deckId = deckId);
+
+      const newCards = await CardContent.find(filter).limit(limit || 10);
+
+      return res.status(200).json({
+        newCards,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error! Internal server error.",
+      });
+    }
+  };
 }
