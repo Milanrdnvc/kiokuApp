@@ -1,0 +1,12 @@
+<h2>My Decks</h2>
+<button>+ Create New Deck</button>
+
+<ul>
+  @for (deck of deckList; track deck._id) {
+    <li>
+      <span>{{ deck.deckId.name }}</span>
+      <button>Study Deck</button>
+      <button>Manage Cards</button>
+    </li>
+  }
+</ul>

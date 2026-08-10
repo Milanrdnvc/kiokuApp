@@ -43,9 +43,7 @@ export class DeckController {
         "deckId",
       );
 
-      return res.status(200).json({
-        decks: userDecks,
-      });
+      return res.status(200).json(userDecks);
     } catch (error) {
       res.status(500).json({
         message: "Error! Internal server error.",
