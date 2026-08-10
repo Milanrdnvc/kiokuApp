@@ -17,4 +17,16 @@ export class UserService {
       u,
     );
   }
+
+  login(usernameOrEmail: string, password: string) {
+    const data = {
+      usernameOrEmail,
+      password,
+    };
+
+    return this.http.post<Message | { message: string; token: string; user: User }>(
+      `${this.uri}/login`,
+      data,
+    );
+  }
 }

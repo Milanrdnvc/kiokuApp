@@ -20,7 +20,9 @@ export class Register {
       next: (data) => {
         console.log(data);
       },
-      error: (err) => {},
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 }

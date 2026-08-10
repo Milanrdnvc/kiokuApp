@@ -48,20 +48,18 @@ export class UserController {
 
   login = async (req: express.Request, res: express.Response) => {
     try {
-      const { email, password } = req.body;
+      const { usernameOrEmail, password } = req.body;
 
-      const user = await User.findOne({ email });
+      const user = await User.findOne({
+        $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
+      });
       if (!user) {
-        return res
-          .status(401)
-          .json({ message: "Error! Wrong email or password." });
+        return res.status(401).json({ message: "Error! Wrong credentials." });
       }
 
       const isPasswordValid = await user.comparePassword(password);
       if (!isPasswordValid) {
-        return res
-          .status(401)
-          .json({ message: "Error! Wrong email or password." });
+        return res.status(401).json({ message: "Error! Wrong credentials." });
       }
 
       const token = generateToken(user._id);
