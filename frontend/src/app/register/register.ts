@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../models/User';
+import { Message } from '../models/Message';
 
 @Component({
   selector: 'app-register',
@@ -17,8 +18,8 @@ export class Register {
 
   register() {
     this.userService.register(this.newUser).subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (res) => {
+        if (!(res instanceof Message)) this.userService.setToken(res.token);
       },
       error: (err) => {
         console.log(err);

@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { Message } from '../models/Message';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,8 @@ export class Login {
 
   login() {
     this.userService.login(this.usernameOrEmail, this.password).subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (res) => {
+        if (!(res instanceof Message)) this.userService.setToken(res.token);
       },
       error: (err) => {
         console.log(err);
