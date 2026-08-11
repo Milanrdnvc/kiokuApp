@@ -22,26 +22,26 @@ export class StudyDeck implements OnInit {
 
         // init first card
         if (this.dueCards.length > 0) this.currentCard = this.dueCards[this.dueCardsIdx].cardId;
+
+        this.cardService
+          .getNewCards(this.selectedDeck.deckId._id, this.selectedDeck.newCardsPerDay)
+          .subscribe({
+            next: (res) => {
+              this.newCards = res as CardContent[];
+
+              // init first card
+              if (this.newCards.length > 0 && this.dueCards.length == 0)
+                this.currentCard = this.newCards[this.newCardsIdx];
+            },
+            error: (err) => {
+              console.log(err);
+            },
+          });
       },
       error: (err) => {
         console.log(err);
       },
     });
-
-    this.cardService
-      .getNewCards(this.selectedDeck.deckId._id, this.selectedDeck.newCardsPerDay)
-      .subscribe({
-        next: (res) => {
-          this.newCards = res as CardContent[];
-
-          // init first card
-          if (this.newCards.length > 0 && this.dueCards.length == 0)
-            this.currentCard = this.newCards[this.newCardsIdx];
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
   }
 
   private cardService = inject(CardService);
