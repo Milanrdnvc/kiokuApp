@@ -5,6 +5,6 @@ export class DeckUserSettings {
   userId: string = '';
   deckId: Deck = new Deck();
   algorithm: string = '';
-  desiredRetention: string = '';
-  newCardsPerDay: string = '';
+  desiredRetention: number = -1;
+  newCardsPerDay: number = -1;
 }

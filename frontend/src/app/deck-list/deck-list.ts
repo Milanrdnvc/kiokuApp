@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DeckService } from '../services/deck.service';
 import { DeckUserSettings } from '../models/DeckUserSettings';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-deck-list',
@@ -21,7 +22,14 @@ export class DeckList implements OnInit {
     });
   }
 
+  private router = inject(Router);
   private deckService = inject(DeckService);
 
   deckList: DeckUserSettings[] = [];
+
+  studyDeck(deck: DeckUserSettings) {
+    localStorage.setItem('selected-deck', JSON.stringify(deck));
+
+    this.router.navigate(['study-deck']);
+  }
 }

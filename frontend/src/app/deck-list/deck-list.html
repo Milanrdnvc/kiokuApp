@@ -5,7 +5,7 @@
   @for (deck of deckList; track deck._id) {
     <li>
       <span>{{ deck.deckId.name }}</span>
-      <button>Study Deck</button>
+      <button (click)="studyDeck(deck)">Study Deck</button>
       <button>Manage Cards</button>
       <button>Deck Settings</button>
     </li>

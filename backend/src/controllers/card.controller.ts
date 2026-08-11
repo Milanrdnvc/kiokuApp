@@ -263,7 +263,7 @@ export class CardController {
         .sort({ nextReview: 1 })
         .populate("cardId");
 
-      return res.status(200).json({ dueCards });
+      return res.status(200).json(dueCards);
     } catch (error) {
       res.status(500).json({
         message: "Error! Internal server error.",
@@ -286,9 +286,7 @@ export class CardController {
 
       const newCards = await CardContent.find(filter).limit(limit || 10);
 
-      return res.status(200).json({
-        newCards,
-      });
+      return res.status(200).json(newCards);
     } catch (error) {
       res.status(500).json({
         message: "Error! Internal server error.",

@@ -1,17 +1,32 @@
 <h2>Studying Deck</h2>
 
-<!-- Prikaz kartice -->
-<!-- <div>
-  <p><strong>Front:</strong> {{ currentCard?.front }}</p>
-  <p *ngIf="isFlipped"><strong>Back:</strong> {{ currentCard?.back }}</p>
-</div> -->
+@if (currentCard) {
+  <div>
+    <p><strong>Front:</strong> {{ currentCard.front }}</p>
+    @if (isFlipped) {
+      <p><strong>Back:</strong> {{ currentCard.back }}</p>
+    }
+  </div>
 
-<!-- Akcije -->
-<!-- <button *ngIf="!isFlipped" (click)="flip()">Show Answer</button>
+  <button (click)="showAnswer()">Show answer</button>
 
-<div *ngIf="isFlipped">
-  <button (click)="rate(0)">0 - Again</button>
-  <button (click)="rate(1)">1 - Hard</button>
-  <button (click)="rate(2)">2 - Good</button>
-  <button (click)="rate(3)">3 - Easy</button>
-</div> -->
+  <br />
+
+  @if (isFlipped) {
+    @if (selectedDeck.algorithm === 'FSRS') {
+      <button (click)="rate(1)">1 - Again</button>
+      <button (click)="rate(2)">2 - Hard</button>
+      <button (click)="rate(3)">3 - Good</button>
+      <button (click)="rate(4)">4 - Easy</button>
+    } @else if (selectedDeck.algorithm === 'SM2') {
+      <button (click)="rate(0)">0 - Blackout</button>
+      <button (click)="rate(1)">1 - Wrong</button>
+      <button (click)="rate(2)">2 - Remembered with extreme effort</button>
+      <button (click)="rate(3)">3 - Hard</button>
+      <button (click)="rate(4)">4 - Good</button>
+      <button (click)="rate(5)">5 - Perfect</button>
+    }
+  }
+} @else {
+  <p>Congratulations! You have finished this deck for now.</p>
+}
