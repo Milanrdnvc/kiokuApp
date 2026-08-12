@@ -6,7 +6,7 @@
     <li>
       <span>{{ deck.deckId.name }}</span>
       <button (click)="studyDeck(deck)">Study Deck</button>
-      <button>Manage Cards</button>
+      <button (click)="manageCards(deck)">Manage Cards</button>
       <button>Deck Settings</button>
     </li>
   }

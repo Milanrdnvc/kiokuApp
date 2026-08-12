@@ -29,6 +29,14 @@ export class CardService {
     return this.http.post<CardContent[] | Message>(`${this.uri}/getNewCards`, data);
   }
 
+  getAllCards(deckId: string) {
+    const data = {
+      deckId,
+    };
+
+    return this.http.post<CardContent[] | Message>(`${this.uri}/getAllCards`, data);
+  }
+
   review(cardId: string, grade: number) {
     const data = {
       cardId,

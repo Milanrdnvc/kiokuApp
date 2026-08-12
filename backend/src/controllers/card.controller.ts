@@ -293,4 +293,30 @@ export class CardController {
       });
     }
   };
+
+  getAllCards = async (req: express.Request, res: express.Response) => {
+    try {
+      const userId = req.userId;
+      const { deckId } = req.body;
+
+      const deck = await Deck.findOne({
+        _id: deckId,
+        $or: [{ createdBy: userId }, { createdBy: null }],
+      });
+
+      if (!deck) {
+        return res.status(403).json({
+          message: "Error! Deck is private.",
+        });
+      }
+
+      const allCards = await CardContent.find({ deckId });
+
+      return res.status(200).json(allCards);
+    } catch (error) {
+      res.status(500).json({
+        message: "Error! Internal server error.",
+      });
+    }
+  };
 }

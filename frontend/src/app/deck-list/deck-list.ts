@@ -32,4 +32,10 @@ export class DeckList implements OnInit {
 
     this.router.navigate(['study-deck']);
   }
+
+  manageCards(deck: DeckUserSettings) {
+    localStorage.setItem('selected-deck', JSON.stringify(deck));
+
+    this.router.navigate(['manage-cards']);
+  }
 }

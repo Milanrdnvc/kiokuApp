@@ -1,0 +1,56 @@
+<h2>Manage Cards</h2>
+
+<!-- 1. Forma za dodavanje nove kartice -->
+<h3>Dodaj novu karticu</h3>
+
+<form>
+  <div>
+    <label for="front">Front</label>
+    <br />
+    <textarea id="front" name="front" rows="3" required></textarea>
+  </div>
+
+  <br />
+
+  <div>
+    <label for="back">Back </label>
+    <br />
+    <textarea id="back" name="back" rows="3" required></textarea>
+  </div>
+
+  <br />
+
+  <button type="submit">Add card</button>
+</form>
+
+<hr />
+
+<h3>Cards in deck ({{ allCards.length }})</h3>
+
+@if (allCards.length === 0) {
+  <p>There are currently no cards in this deck.</p>
+} @else {
+  <ul>
+    @for (card of allCards; track card._id) {
+      <li>
+        @if (isOwner) {
+          <p>
+            <strong>Front:</strong><br />
+            <textarea [(ngModel)]="card.front" rows="3" style="width: 100%"></textarea>
+          </p>
+
+          <p>
+            <strong>Back:</strong><br />
+            <textarea [(ngModel)]="card.back" rows="3" style="width: 100%"></textarea>
+          </p>
+
+          <button>Save Changes</button>
+          <button>Delete</button>
+        } @else {
+          <p><strong>Front:</strong> {{ card.front }}</p>
+          <p><strong>Back:</strong> {{ card.back }}</p>
+        }
+      </li>
+    }
+  </ul>
+}

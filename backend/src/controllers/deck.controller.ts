@@ -108,16 +108,17 @@ export class DeckController {
         }
       }
 
-      const deck = await Deck.findOneAndUpdate(
-        { _id: id, createdBy: userId },
-        { name },
-        { new: true, runValidators: true },
-      );
+      let updatedDeck = null;
+      if (name) {
+        updatedDeck = await Deck.findOneAndUpdate(
+          { _id: id, createdBy: userId },
+          { name },
+          { new: true, runValidators: true },
+        );
+      }
 
-      if (!deck) {
-        return res.status(404).json({
-          message: "Error! Deck not found or you can't change it.",
-        });
+      if (!updatedDeck) {
+        updatedDeck = await Deck.findById(id);
       }
 
       const settings = await UserDeckSettings.findOneAndUpdate(
@@ -128,7 +129,7 @@ export class DeckController {
 
       return res.status(200).json({
         message: "Deck successfully updated.",
-        deck,
+        deck: updatedDeck,
         settings,
       });
     } catch (error) {

@@ -34,4 +34,8 @@ cardRouter
   .route("/getNewCards")
   .post((req, res) => new CardController().getNewCards(req, res));
 
+cardRouter
+  .route("/getAllCards")
+  .post((req, res) => new CardController().getAllCards(req, res));
+
 export default cardRouter;
