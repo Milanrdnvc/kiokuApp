@@ -1,26 +1,28 @@
 <h2>Manage Cards</h2>
 
-<h3>Add new card</h3>
+@if (isOwner) {
+  <h3>Add new card</h3>
 
-<form (ngSubmit)="create()">
-  <div>
-    <label for="front">Front</label>
+  <form (ngSubmit)="create()">
+    <div>
+      <label for="front">Front</label>
+      <br />
+      <textarea id="front" name="front" rows="3" required [(ngModel)]="newCardFront"></textarea>
+    </div>
+
     <br />
-    <textarea id="front" name="front" rows="3" required [(ngModel)]="newCardFront"></textarea>
-  </div>
 
-  <br />
+    <div>
+      <label for="back">Back </label>
+      <br />
+      <textarea id="back" name="back" rows="3" required [(ngModel)]="newCardBack"></textarea>
+    </div>
 
-  <div>
-    <label for="back">Back </label>
     <br />
-    <textarea id="back" name="back" rows="3" required [(ngModel)]="newCardBack"></textarea>
-  </div>
 
-  <br />
-
-  <button type="submit">Add card</button>
-</form>
+    <button type="submit">Add card</button>
+  </form>
+}
 
 <hr />
 
