@@ -45,4 +45,32 @@ export class CardService {
 
     return this.http.post<Message>(`${this.uri}/review`, data);
   }
+
+  create(front: string, back: string, deckId: string) {
+    const data = {
+      front,
+      back,
+      deckId,
+    };
+
+    return this.http.post<Message>(`${this.uri}/create`, data);
+  }
+
+  change(front: string, back: string, id: string) {
+    const data = {
+      front,
+      back,
+      id,
+    };
+
+    return this.http.post<Message>(`${this.uri}/update`, data);
+  }
+
+  delete(id: string) {
+    const data = {
+      id,
+    };
+
+    return this.http.post<Message>(`${this.uri}/delete`, data);
+  }
 }

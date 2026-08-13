@@ -1,13 +1,12 @@
 <h2>Manage Cards</h2>
 
-<!-- 1. Forma za dodavanje nove kartice -->
-<h3>Dodaj novu karticu</h3>
+<h3>Add new card</h3>
 
-<form>
+<form (ngSubmit)="create()">
   <div>
     <label for="front">Front</label>
     <br />
-    <textarea id="front" name="front" rows="3" required></textarea>
+    <textarea id="front" name="front" rows="3" required [(ngModel)]="newCardFront"></textarea>
   </div>
 
   <br />
@@ -15,7 +14,7 @@
   <div>
     <label for="back">Back </label>
     <br />
-    <textarea id="back" name="back" rows="3" required></textarea>
+    <textarea id="back" name="back" rows="3" required [(ngModel)]="newCardBack"></textarea>
   </div>
 
   <br />
@@ -44,8 +43,8 @@
             <textarea [(ngModel)]="card.back" rows="3" style="width: 100%"></textarea>
           </p>
 
-          <button>Save Changes</button>
-          <button>Delete</button>
+          <button (click)="change(card.front, card.back, card._id)">Save Changes</button>
+          <button (click)="delete(card._id)">Delete</button>
         } @else {
           <p><strong>Front:</strong> {{ card.front }}</p>
           <p><strong>Back:</strong> {{ card.back }}</p>

@@ -124,7 +124,6 @@ export class CardController {
 
       return res.status(201).json({
         message: "Card created successfully.",
-        card,
       });
     } catch (error) {
       res.status(500).json({
@@ -175,7 +174,6 @@ export class CardController {
 
       return res.status(200).json({
         message: "Card successfully updated.",
-        card,
       });
     } catch (error) {
       res.status(500).json({
