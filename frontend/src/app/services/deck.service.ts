@@ -14,4 +14,22 @@ export class DeckService {
   getAll() {
     return this.http.get<DeckUserSettings[] | Message>(`${this.uri}/getAll`);
   }
+
+  update(
+    id: string,
+    name: string,
+    desiredRetention: number,
+    newCardsPerDay: number,
+    algorithm: string,
+  ) {
+    const data = {
+      id,
+      name,
+      desiredRetention,
+      newCardsPerDay,
+      algorithm,
+    };
+
+    return this.http.post<Message>(`${this.uri}/update`, data);
+  }
 }

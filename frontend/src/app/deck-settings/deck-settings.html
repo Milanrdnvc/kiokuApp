@@ -1,0 +1,47 @@
+<h2>Deck Settings</h2>
+
+<form (ngSubmit)="update()">
+  <!-- @if (isOwner) { -->
+  <div>
+    <label for="name">Deck name</label>
+    <br />
+    <input id="name" name="name" type="text" [(ngModel)]="newDeckName" />
+  </div>
+
+  <br />
+  <!-- } -->
+
+  <div>
+    <label for="newCardsPerDay">New cards per day</label>
+    <br />
+    <input id="newCardsPerDay" name="newCardsPerDay" type="number" [(ngModel)]="newCardsPerDay" />
+  </div>
+
+  <br />
+
+  <div>
+    <label for="desiredRetention">Desired retention</label>
+    <br />
+    <input
+      id="desiredRetention"
+      name="desiredRetention"
+      type="number"
+      [(ngModel)]="newDesiredRetention"
+    />
+  </div>
+
+  <br />
+
+  <div>
+    <label for="algorithm">Algorithm</label>
+    <br />
+    <select id="algorithm" name="algorithm" [(ngModel)]="newAlgorithm">
+      <option value="FSRS">FSRS</option>
+      <option value="SM2">SM2</option>
+    </select>
+  </div>
+
+  <br />
+
+  <button type="submit">Save Settings</button>
+</form>

@@ -38,4 +38,10 @@ export class DeckList implements OnInit {
 
     this.router.navigate(['manage-cards']);
   }
+
+  deckSettings(deck: DeckUserSettings) {
+    localStorage.setItem('selected-deck', JSON.stringify(deck));
+
+    this.router.navigate(['deck-settings']);
+  }
 }

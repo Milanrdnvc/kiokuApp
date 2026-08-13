@@ -129,8 +129,6 @@ export class DeckController {
 
       return res.status(200).json({
         message: "Deck successfully updated.",
-        deck: updatedDeck,
-        settings,
       });
     } catch (error) {
       res.status(500).json({
