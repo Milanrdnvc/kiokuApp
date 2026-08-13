@@ -1,0 +1,13 @@
+<h3>Create new deck</h3>
+
+<form (ngSubmit)="createDeck()">
+  <div>
+    <label for="deckName">Deck name</label>
+    <br />
+    <input id="deckName" name="deckName" type="text" required [(ngModel)]="newDeckName" />
+  </div>
+
+  <br />
+
+  <button type="submit">Create Deck</button>
+</form>

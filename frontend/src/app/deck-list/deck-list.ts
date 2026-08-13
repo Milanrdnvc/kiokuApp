@@ -44,4 +44,8 @@ export class DeckList implements OnInit {
 
     this.router.navigate(['deck-settings']);
   }
+
+  createNewDeck() {
+    this.router.navigate(['create-deck']);
+  }
 }

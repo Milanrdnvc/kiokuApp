@@ -25,8 +25,6 @@ export class DeckController {
 
       return res.status(201).json({
         message: "Deck created successfully.",
-        deck,
-        settings,
       });
     } catch (error) {
       res.status(500).json({

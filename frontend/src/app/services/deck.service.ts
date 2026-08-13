@@ -32,4 +32,10 @@ export class DeckService {
 
     return this.http.post<Message>(`${this.uri}/update`, data);
   }
+
+  create(name: string) {
+    const data = { name };
+
+    return this.http.post<Message>(`${this.uri}/create`, data);
+  }
 }
