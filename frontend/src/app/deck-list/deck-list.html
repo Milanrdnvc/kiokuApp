@@ -1,13 +1,30 @@
-<h2>My Decks</h2>
-<button (click)="createNewDeck()">Create New Deck</button>
+<div class="container mt-4" style="max-width: 650px">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="m-0">My Decks</h2>
+    <button class="btn btn-primary btn-sm" (click)="createNewDeck()">+ Create New Deck</button>
+  </div>
 
-<ul>
-  @for (deck of deckList; track deck._id) {
-    <li>
-      <span>{{ deck.deckId.name }}</span>
-      <button (click)="studyDeck(deck)">Study Deck</button>
-      <button (click)="manageCards(deck)">Manage Cards</button>
-      <button (click)="deckSettings(deck)">Deck Settings</button>
-    </li>
+  @if (errMsg) {
+    <div class="alert alert-danger py-2" role="alert">
+      {{ errMsg }}
+    </div>
   }
-</ul>
+
+  @if (deckList.length === 0) {
+    <p class="text-muted text-center my-4">No decks available yet.</p>
+  } @else {
+    <div class="list-group">
+      @for (deck of deckList; track deck._id) {
+        <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+          <span class="fw-bold">{{ deck.deckId.name }}</span>
+
+          <div class="btn-group btn-group-sm" role="group">
+            <button class="btn btn-success" (click)="studyDeck(deck)">Study</button>
+            <button class="btn btn-outline-secondary" (click)="manageCards(deck)">Cards</button>
+            <button class="btn btn-outline-dark" (click)="deckSettings(deck)">Settings</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

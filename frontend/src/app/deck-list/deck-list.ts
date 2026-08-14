@@ -18,6 +18,7 @@ export class DeckList implements OnInit {
       },
       error: (err) => {
         console.log(err);
+        this.showError(err.error.message);
       },
     });
   }
@@ -26,6 +27,22 @@ export class DeckList implements OnInit {
   private deckService = inject(DeckService);
 
   deckList: DeckUserSettings[] = [];
+
+  errMsg: string = '';
+
+  private errorTimeoutId: any = null;
+  private showError(msg: string): void {
+    this.errMsg = msg;
+
+    if (this.errorTimeoutId) {
+      clearTimeout(this.errorTimeoutId);
+    }
+
+    this.errorTimeoutId = setTimeout(() => {
+      this.errMsg = '';
+      this.errorTimeoutId = null;
+    }, 5000);
+  }
 
   studyDeck(deck: DeckUserSettings) {
     localStorage.setItem('selected-deck', JSON.stringify(deck));
