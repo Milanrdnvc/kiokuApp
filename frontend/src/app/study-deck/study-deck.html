@@ -1,32 +1,58 @@
-<h2>Studying Deck</h2>
+<div class="container mt-4" style="max-width: 550px">
+  <h2 class="mb-3 text-center">Studying Deck</h2>
 
-@if (currentCard) {
-  <div>
-    <p><strong>Front:</strong> {{ currentCard.front }}</p>
-    @if (isFlipped) {
-      <p><strong>Back:</strong> {{ currentCard.back }}</p>
-    }
-  </div>
-
-  <button (click)="showAnswer()">Show answer</button>
-
-  <br />
-
-  @if (isFlipped) {
-    @if (selectedDeck.algorithm === 'FSRS') {
-      <button (click)="rate(1)">1 - Again</button>
-      <button (click)="rate(2)">2 - Hard</button>
-      <button (click)="rate(3)">3 - Good</button>
-      <button (click)="rate(4)">4 - Easy</button>
-    } @else if (selectedDeck.algorithm === 'SM2') {
-      <button (click)="rate(0)">0 - Blackout</button>
-      <button (click)="rate(1)">1 - Wrong</button>
-      <button (click)="rate(2)">2 - Remembered with extreme effort</button>
-      <button (click)="rate(3)">3 - Hard</button>
-      <button (click)="rate(4)">4 - Good</button>
-      <button (click)="rate(5)">5 - Perfect</button>
-    }
+  @if (errMsg) {
+    <div class="alert alert-danger py-2" role="alert">
+      {{ errMsg }}
+    </div>
   }
-} @else {
-  <p>Congratulations! You have finished this deck for now.</p>
-}
+
+  @if (currentCard) {
+    <div class="card text-center mb-3 shadow-sm">
+      <div class="card-body py-4">
+        <h6 class="text-muted mb-2">Question / Front</h6>
+        <p class="fs-4 fw-medium mb-3">{{ currentCard.front }}</p>
+
+        @if (isFlipped) {
+          <hr />
+          <h6 class="text-muted mb-2">Answer / Back</h6>
+          <p class="fs-4 fw-medium text-success mb-0">{{ currentCard.back }}</p>
+        }
+      </div>
+    </div>
+
+    @if (!isFlipped) {
+      <button class="btn btn-primary w-100 py-2" (click)="showAnswer()">Show Answer</button>
+    }
+
+    @if (isFlipped) {
+      <div class="text-center">
+        <p class="small text-muted mb-2">How well did you know this?</p>
+
+        @if (selectedDeck.algorithm === 'FSRS') {
+          <div class="d-flex gap-2">
+            <button class="btn btn-danger flex-fill" (click)="rate(1)">1 - Again</button>
+            <button class="btn btn-warning flex-fill" (click)="rate(2)">2 - Hard</button>
+            <button class="btn btn-primary flex-fill" (click)="rate(3)">3 - Good</button>
+            <button class="btn btn-success flex-fill" (click)="rate(4)">4 - Easy</button>
+          </div>
+        } @else if (selectedDeck.algorithm === 'SM2') {
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <button class="btn btn-danger btn-sm" (click)="rate(0)">0 - Blackout</button>
+            <button class="btn btn-danger btn-sm" (click)="rate(1)">1 - Wrong</button>
+            <button class="btn btn-warning btn-sm" (click)="rate(2)">2 - Extreme effort</button>
+            <button class="btn btn-warning btn-sm" (click)="rate(3)">3 - Hard</button>
+            <button class="btn btn-primary btn-sm" (click)="rate(4)">4 - Good</button>
+            <button class="btn btn-success btn-sm" (click)="rate(5)">5 - Perfect</button>
+          </div>
+        }
+      </div>
+    }
+  } @else {
+    <div class="text-center my-5">
+      <h4 class="text-success mb-3">Congratulations!</h4>
+      <p class="text-muted">You have finished this deck for now.</p>
+      <button class="btn btn-outline-primary mt-2" (click)="backToDecks()">Back to Decks</button>
+    </div>
+  }
+</div>

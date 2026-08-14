@@ -3,6 +3,7 @@ import { CardUserData } from '../models/CardUserData';
 import { CardContent } from '../models/CardContent';
 import { CardService } from '../services/card.service';
 import { DeckUserSettings } from '../models/DeckUserSettings';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-study-deck',
@@ -44,6 +45,7 @@ export class StudyDeck implements OnInit {
     });
   }
 
+  private router = inject(Router);
   private cardService = inject(CardService);
 
   selectedDeck: DeckUserSettings = new DeckUserSettings();
@@ -56,6 +58,22 @@ export class StudyDeck implements OnInit {
   currentCard: CardContent | null = null;
 
   isFlipped: boolean = false;
+
+  errMsg: string = '';
+
+  private errorTimeoutId: any = null;
+  private showError(msg: string): void {
+    this.errMsg = msg;
+
+    if (this.errorTimeoutId) {
+      clearTimeout(this.errorTimeoutId);
+    }
+
+    this.errorTimeoutId = setTimeout(() => {
+      this.errMsg = '';
+      this.errorTimeoutId = null;
+    }, 5000);
+  }
 
   rate(grade: number) {
     if (!this.currentCard) return;
@@ -84,11 +102,16 @@ export class StudyDeck implements OnInit {
       },
       error: (err) => {
         console.log(err);
+        this.showError(err.error.message);
       },
     });
   }
 
   showAnswer() {
     this.isFlipped = true;
+  }
+
+  backToDecks(): void {
+    this.router.navigate(['/deck-list']);
   }
 }
