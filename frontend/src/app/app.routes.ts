@@ -14,10 +14,13 @@ export const routes: Routes = [
   { path: '', component: Guest },
   { path: 'register', component: Register },
   { path: 'login', component: Login },
+
   { path: 'deck-list', component: DeckList, canActivate: [authGuard] },
   { path: 'study-deck', component: StudyDeck, canActivate: [authGuard] },
   { path: 'manage-cards', component: ManageCards, canActivate: [authGuard] },
   { path: 'deck-settings', component: DeckSettings, canActivate: [authGuard] },
   { path: 'create-deck', component: CreateDeck, canActivate: [authGuard] },
   { path: 'statistics', component: Statistics, canActivate: [authGuard] },
+
+  { path: '**', redirectTo: '' },
 ];
