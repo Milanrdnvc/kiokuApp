@@ -1,47 +1,61 @@
-<h2>Deck Settings</h2>
+<div class="container mt-4" style="max-width: 500px">
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 350px; width: 100%">
+    @if (succMsg) {
+      <div class="alert alert-success fade show shadow py-2" role="alert">
+        {{ succMsg }}
+      </div>
+    }
 
-<form (ngSubmit)="update()">
-  <!-- @if (isOwner) { -->
-  <div>
-    <label for="name">Deck name</label>
-    <br />
-    <input id="name" name="name" type="text" [(ngModel)]="newDeckName" />
+    @if (errMsg) {
+      <div class="alert alert-danger fade show shadow py-2" role="alert">
+        {{ errMsg }}
+      </div>
+    }
   </div>
 
-  <br />
-  <!-- } -->
+  <h2 class="mb-4">Deck Settings</h2>
 
-  <div>
-    <label for="newCardsPerDay">New cards per day</label>
-    <br />
-    <input id="newCardsPerDay" name="newCardsPerDay" type="number" [(ngModel)]="newCardsPerDay" />
-  </div>
+  <form (ngSubmit)="update()">
+    @if (isOwner) {
+      <div class="mb-3">
+        <label for="name" class="form-label fw-medium">Deck Name</label>
+        <input id="name" name="name" type="text" class="form-control" [(ngModel)]="newDeckName" />
+      </div>
+    }
 
-  <br />
+    <div class="mb-3">
+      <label for="newCardsPerDay" class="form-label fw-medium">New cards per day</label>
+      <input
+        id="newCardsPerDay"
+        name="newCardsPerDay"
+        type="number"
+        class="form-control"
+        [(ngModel)]="newCardsPerDay"
+      />
+    </div>
 
-  <div>
-    <label for="desiredRetention">Desired retention</label>
-    <br />
-    <input
-      id="desiredRetention"
-      name="desiredRetention"
-      type="number"
-      [(ngModel)]="newDesiredRetention"
-    />
-  </div>
+    <div class="mb-3">
+      <label for="desiredRetention" class="form-label fw-medium">
+        Desired retention (0.70 - 0.99)
+      </label>
+      <input
+        id="desiredRetention"
+        name="desiredRetention"
+        type="number"
+        step="0.01"
+        class="form-control"
+        [(ngModel)]="newDesiredRetention"
+      />
+    </div>
 
-  <br />
+    <div class="mb-4">
+      <label for="algorithm" class="form-label fw-medium">Algorithm</label>
+      <select id="algorithm" name="algorithm" class="form-select" [(ngModel)]="newAlgorithm">
+        <option value="FSRS">FSRS</option>
+        <option value="SM2">SM2</option>
+      </select>
+    </div>
 
-  <div>
-    <label for="algorithm">Algorithm</label>
-    <br />
-    <select id="algorithm" name="algorithm" [(ngModel)]="newAlgorithm">
-      <option value="FSRS">FSRS</option>
-      <option value="SM2">SM2</option>
-    </select>
-  </div>
-
-  <br />
-
-  <button type="submit">Save Settings</button>
-</form>
+    <button type="submit" class="btn btn-primary w-100 py-2">Save Settings</button>
+  </form>
+</div>
