@@ -10,6 +10,14 @@ import { Router, RouterLink } from '@angular/router';
 export class Navbar {
   private router = inject(Router);
 
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  getHomeLink(): string {
+    return this.isLoggedIn() ? '/deck-list' : '';
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('selected-deck');

@@ -1,9 +1,29 @@
 <nav class="navbar navbar-expand bg-light border-bottom mb-4">
-  <div class="container">
-    <div class="navbar-nav me-auto">
-      <a class="nav-link" routerLink="/deck-list">Decks</a>
-      <a class="nav-link" routerLink="/statistics">Statistics</a>
+  <div class="container d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-3">
+      <a
+        [routerLink]="getHomeLink()"
+        class="navbar-brand fs-2 fw-bold text-danger text-decoration-none px-2 rounded bg-danger-subtle"
+        title="Home"
+      >
+        億
+      </a>
+
+      @if (isLoggedIn()) {
+        <div class="navbar-nav">
+          <a class="nav-link" routerLink="/deck-list">Decks</a>
+          <a class="nav-link" routerLink="/statistics">Statistics</a>
+        </div>
+      }
     </div>
-    <button class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
+
+    @if (isLoggedIn()) {
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">Logout</button>
+    } @else {
+      <div class="d-flex gap-2">
+        <a routerLink="/login" class="btn btn-outline-primary btn-sm">Login</a>
+        <a routerLink="/register" class="btn btn-primary btn-sm">Register</a>
+      </div>
+    }
   </div>
 </nav>
