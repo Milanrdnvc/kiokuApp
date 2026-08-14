@@ -1,57 +1,88 @@
-<h2>Manage Cards</h2>
+<div class="container mt-4" style="max-width: 650px">
+  <h2 class="mb-3">Manage Cards</h2>
 
-@if (isOwner) {
-  <h3>Add new card</h3>
-
-  <form (ngSubmit)="create()">
-    <div>
-      <label for="front">Front</label>
-      <br />
-      <textarea id="front" name="front" rows="3" required [(ngModel)]="newCardFront"></textarea>
-    </div>
-
-    <br />
-
-    <div>
-      <label for="back">Back </label>
-      <br />
-      <textarea id="back" name="back" rows="3" required [(ngModel)]="newCardBack"></textarea>
-    </div>
-
-    <br />
-
-    <button type="submit">Add card</button>
-  </form>
-}
-
-<hr />
-
-<h3>Cards in deck ({{ allCards.length }})</h3>
-
-@if (allCards.length === 0) {
-  <p>There are currently no cards in this deck.</p>
-} @else {
-  <ul>
-    @for (card of allCards; track card._id) {
-      <li>
-        @if (isOwner) {
-          <p>
-            <strong>Front:</strong><br />
-            <textarea [(ngModel)]="card.front" rows="3" style="width: 100%"></textarea>
-          </p>
-
-          <p>
-            <strong>Back:</strong><br />
-            <textarea [(ngModel)]="card.back" rows="3" style="width: 100%"></textarea>
-          </p>
-
-          <button (click)="change(card.front, card.back, card._id)">Save Changes</button>
-          <button (click)="delete(card._id)">Delete</button>
-        } @else {
-          <p><strong>Front:</strong> {{ card.front }}</p>
-          <p><strong>Back:</strong> {{ card.back }}</p>
-        }
-      </li>
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 350px; width: 100%">
+    @if (succMsg) {
+      <div class="alert alert-success alert-dismissible fade show shadow" role="alert">
+        {{ succMsg }}
+      </div>
     }
-  </ul>
-}
+
+    @if (errMsg) {
+      <div class="alert alert-danger alert-dismissible fade show shadow" role="alert">
+        {{ errMsg }}
+      </div>
+    }
+  </div>
+
+  @if (isOwner) {
+    <div class="card mb-4 p-3 bg-light border">
+      <h4 class="mb-3">Add New Card</h4>
+
+      <form (ngSubmit)="create()">
+        <div class="mb-3">
+          <label for="front" class="form-label fw-medium">Front</label>
+          <textarea
+            id="front"
+            name="front"
+            class="form-control"
+            rows="2"
+            [(ngModel)]="newCardFront"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="back" class="form-label fw-medium">Back</label>
+          <textarea
+            id="back"
+            name="back"
+            class="form-control"
+            rows="2"
+            [(ngModel)]="newCardBack"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Add Card</button>
+      </form>
+    </div>
+  }
+
+  <h4 class="mb-3">Cards in deck ({{ allCards.length }})</h4>
+
+  @if (allCards.length === 0) {
+    <p class="text-muted text-center my-4">There are currently no cards in this deck.</p>
+  } @else {
+    <div class="d-flex flex-column gap-3">
+      @for (card of allCards; track card._id) {
+        <div class="card p-3 shadow-sm">
+          @if (isOwner) {
+            <div class="mb-2">
+              <label class="form-label fw-bold mb-1">Front:</label>
+              <textarea class="form-control" rows="2" [(ngModel)]="card.front"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold mb-1">Back:</label>
+              <textarea class="form-control" rows="2" [(ngModel)]="card.back"></textarea>
+            </div>
+
+            <div class="d-flex gap-2 justify-content-end">
+              <button
+                class="btn btn-success btn-sm"
+                (click)="change(card.front, card.back, card._id)"
+              >
+                Save Changes
+              </button>
+              <button class="btn btn-outline-danger btn-sm" (click)="delete(card._id)">
+                Delete
+              </button>
+            </div>
+          } @else {
+            <p class="mb-2"><strong>Front:</strong> {{ card.front }}</p>
+            <p class="mb-0"><strong>Back:</strong> {{ card.back }}</p>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
