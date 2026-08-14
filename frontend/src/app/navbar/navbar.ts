@@ -12,6 +12,7 @@ export class Navbar {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('selected-deck');
     this.router.navigate(['/login']);
   }
 }
