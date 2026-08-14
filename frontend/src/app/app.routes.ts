@@ -7,14 +7,15 @@ import { StudyDeck } from './study-deck/study-deck';
 import { ManageCards } from './manage-cards/manage-cards';
 import { DeckSettings } from './deck-settings/deck-settings';
 import { CreateDeck } from './create-deck/create-deck';
+import { authGuard } from './helpers/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: Guest },
   { path: 'register', component: Register },
   { path: 'login', component: Login },
-  { path: 'deck-list', component: DeckList },
-  { path: 'study-deck', component: StudyDeck },
-  { path: 'manage-cards', component: ManageCards },
-  { path: 'deck-settings', component: DeckSettings },
-  { path: 'create-deck', component: CreateDeck },
+  { path: 'deck-list', component: DeckList, canActivate: [authGuard] },
+  { path: 'study-deck', component: StudyDeck, canActivate: [authGuard] },
+  { path: 'manage-cards', component: ManageCards, canActivate: [authGuard] },
+  { path: 'deck-settings', component: DeckSettings, canActivate: [authGuard] },
+  { path: 'create-deck', component: CreateDeck, canActivate: [authGuard] },
 ];
