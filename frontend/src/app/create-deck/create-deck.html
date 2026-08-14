@@ -1,13 +1,32 @@
-<h3>Create new deck</h3>
+<div class="container mt-4" style="max-width: 450px">
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050; max-width: 350px; width: 100%">
+    @if (succMsg) {
+      <div class="alert alert-success fade show shadow py-2" role="alert">
+        {{ succMsg }}
+      </div>
+    }
 
-<form (ngSubmit)="createDeck()">
-  <div>
-    <label for="deckName">Deck name</label>
-    <br />
-    <input id="deckName" name="deckName" type="text" required [(ngModel)]="newDeckName" />
+    @if (errMsg) {
+      <div class="alert alert-danger fade show shadow py-2" role="alert">
+        {{ errMsg }}
+      </div>
+    }
   </div>
 
-  <br />
+  <h2 class="mb-4">Create New Deck</h2>
 
-  <button type="submit">Create Deck</button>
-</form>
+  <form (ngSubmit)="createDeck()">
+    <div class="mb-3">
+      <label for="deckName" class="form-label fw-medium">Deck Name</label>
+      <input
+        id="deckName"
+        name="deckName"
+        type="text"
+        class="form-control"
+        [(ngModel)]="newDeckName"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 py-2">Create Deck</button>
+  </form>
+</div>
