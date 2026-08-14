@@ -8,6 +8,7 @@ import { ManageCards } from './manage-cards/manage-cards';
 import { DeckSettings } from './deck-settings/deck-settings';
 import { CreateDeck } from './create-deck/create-deck';
 import { authGuard } from './helpers/auth.guard';
+import { Statistics } from './statistics/statistics';
 
 export const routes: Routes = [
   { path: '', component: Guest },
@@ -18,4 +19,5 @@ export const routes: Routes = [
   { path: 'manage-cards', component: ManageCards, canActivate: [authGuard] },
   { path: 'deck-settings', component: DeckSettings, canActivate: [authGuard] },
   { path: 'create-deck', component: CreateDeck, canActivate: [authGuard] },
+  { path: 'statistics', component: Statistics, canActivate: [authGuard] },
 ];
