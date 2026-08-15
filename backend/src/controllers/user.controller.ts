@@ -2,6 +2,8 @@ import * as express from "express";
 import { Types } from "mongoose";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import Deck from "../models/Deck.js";
+import UserDeckSettings from "../models/UserDeckSettings.js";
 
 const generateToken = (userId: Types.ObjectId | string): string => {
   return jwt.sign(
@@ -9,6 +11,17 @@ const generateToken = (userId: Types.ObjectId | string): string => {
     process.env.JWT_SECRET || "secret_key_dev",
     { expiresIn: "7d" },
   );
+};
+
+const initializeUserDecks = async (userId: string) => {
+  const premadeDecks = await Deck.find({ createdBy: null });
+
+  const userDeckSettings = premadeDecks.map((deck) => ({
+    userId,
+    deckId: deck._id,
+  }));
+
+  await UserDeckSettings.insertMany(userDeckSettings);
 };
 
 export class UserController {
@@ -29,6 +42,8 @@ export class UserController {
       const user = await User.create({ username, email, password });
 
       const token = generateToken(user._id);
+
+      await initializeUserDecks(user._id.toString());
 
       res.status(201).json({
         message: "Registration successful.",
