@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../models/User';
 import { Message } from '../models/Message';
@@ -12,6 +12,7 @@ import { Message } from '../models/Message';
   styleUrl: './register.css',
 })
 export class Register {
+  private router = inject(Router);
   private userService = inject(UserService);
 
   newUser: User = new User();
@@ -64,6 +65,8 @@ export class Register {
     this.userService.register(this.newUser).subscribe({
       next: (res) => {
         if (!(res instanceof Message)) this.userService.setToken(res.token);
+
+        this.router.navigate(['login']);
       },
       error: (err) => {
         console.log(err);
