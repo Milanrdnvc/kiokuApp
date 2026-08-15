@@ -32,6 +32,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
     ) as JwtPayload;
 
     req.userId = decoded.id as string;
+
     next();
   } catch (error) {
     return res.status(401).json({ message: "Error! Invalid token." });

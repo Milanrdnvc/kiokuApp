@@ -1,10 +1,13 @@
 import express from "express";
 import { StatsController } from "../controllers/stats.controller";
+import { protect } from "../middlewares/auth.middleware";
 
-const statsRoutes = express.Router();
+const statsRouter = express.Router();
 
-statsRoutes
+statsRouter.use(protect);
+
+statsRouter
   .route("/getUserStatistics")
   .get((req, res) => new StatsController().getUserStatistics(req, res));
 
-export default statsRoutes;
+export default statsRouter;

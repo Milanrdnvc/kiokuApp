@@ -1,1 +1,61 @@
-<p>statistics works!</p>
+<div class="container mt-4" style="max-width: 700px">
+  <h2 class="mb-4 text-center">Learning Statistics</h2>
+
+  @if (errMsg) {
+    <div class="alert alert-danger py-2 mb-3" role="alert">
+      {{ errMsg }}
+    </div>
+  }
+
+  @if (stats) {
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 bg-light text-center p-3">
+          <div class="fw-bold fs-2 text-danger">
+            {{ stats.streak > -1 ? stats.streak : 0 }}
+          </div>
+          <div class="text-muted small fw-medium">Day Streak</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 bg-light text-center p-3">
+          <div class="fw-bold fs-2 text-primary">
+            {{ stats.reviewsToday > -1 ? stats.reviewsToday : 0 }}
+          </div>
+          <div class="text-muted small fw-medium">Reviews Today</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 bg-light text-center p-3">
+          <div class="fw-bold fs-2 text-dark">
+            {{ stats.totalReviews > -1 ? stats.totalReviews : 0 }}
+          </div>
+          <div class="text-muted small fw-medium">Total Reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm border-0 p-4">
+      <h5 class="card-title mb-3">Rating Breakdown</h5>
+
+      @if (getGradeKeys().length === 0) {
+        <p class="text-muted text-center my-3">No review data available yet.</p>
+      } @else {
+        <div class="d-flex flex-column gap-2">
+          @for (grade of getGradeKeys(); track grade) {
+            <div
+              class="d-flex align-items-center justify-content-between p-2 px-3 rounded bg-light"
+            >
+              <span class="fw-medium">Grade {{ grade }} ({{ getGradeLabel(grade) }}):</span>
+              <span class="badge bg-primary rounded-pill fs-6">
+                {{ stats.gradeBreakdown[grade] }}
+              </span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
