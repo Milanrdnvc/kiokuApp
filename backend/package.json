@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm run serve",
     "serve": "node dist/server.js",
-    "build": "tsc"
+    "build": "tsc",
+    "seed": "ts-node src/data/seed.ts"
   },
   "author": "",
   "license": "ISC",
