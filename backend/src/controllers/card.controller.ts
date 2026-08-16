@@ -272,21 +272,48 @@ export class CardController {
   getNewCards = async (req: express.Request, res: express.Response) => {
     try {
       const userId = req.userId;
-      const { deckId, limit } = req.body;
+      const { deckId, limit = 10 } = req.body;
 
-      const reviewedCardIds = await CardUserData.distinct("cardId", { userId });
+      if (!deckId) {
+        return res.status(400).json({ message: "Error! Deck ID is required." });
+      }
 
-      const filter: any = {
-        _id: { $nin: reviewedCardIds },
-      };
+      const allCardsInDeck = await CardContent.find({ deckId }).select("_id");
+      const deckCardIds = allCardsInDeck.map((c) => c._id);
 
-      deckId && (filter.deckId = deckId);
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
 
-      const newCards = await CardContent.find(filter).limit(limit || 10);
+      const newCardsStudiedToday = await CardUserData.countDocuments({
+        userId,
+        cardId: { $in: deckCardIds },
+        createdAt: { $gte: startOfDay },
+      });
+
+      const remainingNewCards = Math.max(0, limit - newCardsStudiedToday);
+
+      if (remainingNewCards === 0) {
+        return res.status(200).json([]);
+      }
+
+      const existingCardUserDatas = await CardUserData.find({
+        userId,
+        cardId: { $in: deckCardIds },
+      }).select("cardId");
+
+      const reviewedCardIdsInThisDeck = existingCardUserDatas.map(
+        (e) => e.cardId,
+      );
+
+      const newCards = await CardContent.find({
+        deckId,
+        _id: { $nin: reviewedCardIdsInThisDeck },
+      }).limit(remainingNewCards);
 
       return res.status(200).json(newCards);
     } catch (error) {
-      res.status(500).json({
+      console.error(error);
+      return res.status(500).json({
         message: "Error! Internal server error.",
       });
     }
