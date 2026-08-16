@@ -18,9 +18,11 @@ export class DeckSettings implements OnInit {
     this.isOwner = !!this.selectedDeck.deckId.createdBy;
 
     this.newDeckName = this.selectedDeck.deckId.name;
-    this.newCardsPerDay = this.selectedDeck.newCardsPerDay;
-    this.newDesiredRetention = this.selectedDeck.desiredRetention;
+    this.newCardsPerDay = this.selectedDeck.newCardsPerDay || 10;
+    this.newDesiredRetention = this.selectedDeck.desiredRetention || 0.9;
     this.newAlgorithm = this.selectedDeck.algorithm;
+
+    if (this.newAlgorithm === 'FSRS') this.isFSRS = true;
   }
 
   private deckService = inject(DeckService);
@@ -33,6 +35,8 @@ export class DeckSettings implements OnInit {
   newCardsPerDay: number = -1;
   newDesiredRetention: number = -1;
   newAlgorithm: string = '';
+
+  isFSRS: boolean = false;
 
   errMsg: string = '';
   succMsg: string = '';
@@ -77,15 +81,21 @@ export class DeckSettings implements OnInit {
     }
 
     if (
-      this.newDesiredRetention == null ||
-      this.newDesiredRetention < 0.7 ||
-      this.newDesiredRetention > 0.99
+      this.newAlgorithm === 'FSRS' &&
+      (this.newDesiredRetention == null ||
+        this.newDesiredRetention < 0.7 ||
+        this.newDesiredRetention > 0.99)
     ) {
       this.showError('Error! Desired retention must be between 0.70 and 0.99.');
       return false;
     }
 
     return true;
+  }
+
+  changeAlg() {
+    if (this.newAlgorithm === 'FSRS') this.isFSRS = true;
+    else this.isFSRS = false;
   }
 
   update() {
