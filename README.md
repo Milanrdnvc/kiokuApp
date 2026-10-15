@@ -64,6 +64,10 @@ Once both servers are running, open your browser at http://localhost:4200.
 
 ---
 
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
 ## License
 
-This project is licensed under the MIT License - see https://choosealicense.com/licenses/mit/ for details.
+[MIT](https://choosealicense.com/licenses/mit/)
