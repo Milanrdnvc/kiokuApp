@@ -1,6 +1,5 @@
 # Kioku - Bachelor Thesis Project
 University of Belgrade, Faculty of Electrical Engineering
-Department of Computer Engineering and Information Theory
 
 Welcome to the repository for Kioku — a specialized web application for Japanese vocabulary and Kanji learning built around a Spaced Repetition System (SRS).
 
