@@ -39,20 +39,26 @@ The project addresses the challenges of mastering Japanese vocabulary, Kanji and
 
 Clone the repository to your local environment:
 
+```bash
 git clone https://github.com/your-username/kioku.git
 cd kioku
+```
 
 ### Backend Setup
 
+```bash
 cd backend
 npm install
 npm run dev
+```
 
 ### Frontend Setup
 
+```bash
 cd frontend
 npm install
 ng serve
+```
 
 Once both servers are running, open your browser at http://localhost:4200.
 
