@@ -1,26 +1,26 @@
-# Kioku (きおく) - Bachelor Thesis Project
+# Kioku - Bachelor Thesis Project
 University of Belgrade, Faculty of Electrical Engineering
-Department of Computer Engineering and Informatics
+Department of Computer Engineering and Information Theory
 
-Welcome to the repository for Kioku (きおく) — an intelligent web application designed for Japanese language learning and spaced repetition, featuring sentence decomposition and progress tracking.
+Welcome to the repository for Kioku — a specialized web application for Japanese vocabulary and Kanji learning built around a Spaced Repetition System (SRS).
 
 ---
 
 ## Project Overview
 
-Kioku (Japanese: 記憶 — memory, recollection) is a full-stack web application developed as my Bachelor Thesis project at the Faculty of Electrical Engineering, University of Belgrade.
+Kioku (Japanese: 記憶 — memory, recollection) is a full-stack web application developed for my Bachelor Thesis project at the Faculty of Electrical Engineering, University of Belgrade.
 
-The platform optimizes Japanese language acquisition by combining a Spaced Repetition System (SRS) with automated sentence analysis. Users can efficiently manage flashcard decks, generate furigana and word breakdowns, and track daily learning streaks to build consistent study habits.
+The project addresses the challenges of mastering Japanese vocabulary, Kanji and gramamar by leveraging Spaced Repetition System (SRS) algorithms to schedule reviews at optimal intervals, ensuring long-term retention.
 
 ---
 
 ## Key Features
 
-- Spaced Repetition System (SRS): Optimized review scheduling based on memory retention intervals for vocabulary and grammar.
-- Interactive Decks: Create, organize, and categorize custom decks for various JLPT levels (N5–N1) and personal vocabulary lists.
-- Sentence Analysis & Breakdown: Automatic Japanese text parsing that provides word-by-word breakdowns, dictionary definitions, and furigana readings.
-- Streak & Analytics Dashboard: Visual stats for tracking daily study habits, mastered cards, and active learning streaks.
-- User Authentication & Profiles: Secure authentication with progress synchronized across user profiles.
+- Spaced Repetition System (SRS): SM-2 and FSRS algorithms determining card review intervals based on user recall quality.
+- Deck Management: Create, edit, and structure personalized decks as well as use premade decks as part of a curriculum.
+- Interactive Study Sessions: Dynamic flashcard review system implementing the core SRS scheduling logic for efficient learning.
+- Streak & Activity Tracker: Representation of daily study habits, progress analytics, and streak preservation.
+- User Authentication: Secure account creation with progress saved per individual profile.
 
 ---
 
@@ -32,8 +32,7 @@ The platform optimizes Japanese language acquisition by combining a Spaced Repet
 | Backend | Node.js + Express |
 | Database | MongoDB |
 | ORM / ODM | Mongoose |
-| Authentication | JWT (JSON Web Tokens) |
-| Text Analysis | Japanese Morphological Analyzer |
+| Authentication | JWT (JSON Web Token) |
 
 ---
 
