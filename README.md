@@ -49,7 +49,8 @@ cd kioku
 ```bash
 cd backend
 npm install
-npm run dev
+npm run build
+npm start
 ```
 
 ### Frontend Setup
@@ -57,7 +58,7 @@ npm run dev
 ```bash
 cd frontend
 npm install
-ng serve
+npm start
 ```
 
 Once both servers are running, open your browser at http://localhost:4200.
